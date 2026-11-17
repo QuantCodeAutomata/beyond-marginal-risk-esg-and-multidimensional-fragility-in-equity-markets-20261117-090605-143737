@@ -17,9 +17,10 @@ from pathlib import Path
 
 import pandas as pd
 
-from data.data_loader import DataloaderError, load_ohlcv
+from data.data_loader import DataloaderError, MassiveError, load_ohlcv
 from data.generate_synthetic import generate_market_months, generate_panel
 from src import config
+from src.real_data_pipeline import build_real_firm_month_panel
 
 logger = logging.getLogger(__name__)
 
@@ -58,11 +59,7 @@ def build_experiment_panel(
     ESG/accounting/exposure variables are synthetic because MSCI ESG data has
     no permitted REST source (see `results/RESULTS.md`).
     """
-    provenance: dict = {
-        "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
-        "accounting_source": "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
-        "universe_size_run": n_firms,
-    }
+    provenance: dict = {"universe_size_run": n_firms}
     market_months = None
     if use_real_market_state:
         try:
@@ -79,6 +76,31 @@ def build_experiment_panel(
     else:
         provenance["market_state_source"] = "simulated (use_real_market_state=False)"
 
+    # esg_down_effect injects a known coefficient to check sign/magnitude recovery
+    # (tests only); it has no counterpart in real MSCI data, so such calls always
+    # use the synthetic panel. Real experiment runs (esg_down_effect=None) try the
+    # real market/accounting pipeline first (Sec. 3.1-3.2) and fall back to the
+    # synthetic panel only if that data genuinely cannot be loaded.
+    if esg_down_effect is None and market_months is not None:
+        try:
+            raw_panel, real_provenance = build_real_firm_month_panel(n_firms, market_months)
+            provenance.update(real_provenance)
+            provenance["esg_source"] = "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)"
+            provenance["accounting_source"] = "real Massive annual fundamentals, 6-month reporting lag (see results/RESULTS.md)"
+            provenance["market_outcomes_source"] = "real OHLCV via QuantX Dataloader (Loss, log RVOL, log CHL, Beta24, RVOL12, CHL12, momentum, Amihud)"
+            provenance["n_firm_months"] = int(len(raw_panel))
+            logger.info("Experiment panel provenance: %s", provenance)
+            return raw_panel, provenance
+        except (DataloaderError, MassiveError) as exc:
+            logger.warning("Real firm-level panel unavailable (%s); using the synthetic panel.", exc)
+            provenance["real_panel_error"] = str(exc)
+
+    provenance.setdefault(
+        "esg_source", "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
+    )
+    provenance.setdefault(
+        "accounting_source", "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
+    )
     raw_panel = generate_panel(
         n_firms=n_firms,
         n_months=config.N_MONTHS_PAPER,

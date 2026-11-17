@@ -223,7 +223,13 @@ def load_sp500_constituents() -> pd.DataFrame:
     obtainable here, so it stands in for that point-in-time snapshot (see
     results/RESULTS.md, "Deviations from the paper").
     """
-    tables = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
+    response = requests.get(
+        "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+        headers={"User-Agent": "Mozilla/5.0 (research data loader; contact: research@example.com)"},
+        timeout=60,
+    )
+    response.raise_for_status()
+    tables = pd.read_html(io.StringIO(response.text))
     constituents = tables[0].rename(columns={
         "Symbol": "ticker", "Security": "name", "GICS Sector": "sector",
         "GICS Sub-Industry": "sub_industry", "Date added": "date_added",
