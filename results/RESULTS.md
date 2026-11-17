@@ -289,11 +289,11 @@ conclusion (no component survives Holm adjustment).
 - **Universe size and wild-bootstrap replications (time-limited run).**
   The results above use `SYNTHETIC_N_FIRMS_RUN = 140` firms (vs. the
   paper's `SYNTHETIC_N_FIRMS_PAPER = 526`) and
-  `WILD_BOOTSTRAP_REPLICATIONS_RUN = 200` replications (vs. the paper's
+  `WILD_BOOTSTRAP_REPLICATIONS_RUN = 50` replications (vs. the paper's
   9,999), because at the full configuration every experiment's wild
   bootstrap and leave-one-month-out loop would not finish inside this
   replication's time limit (a reduced end-to-end run of all six
-  experiments at 140 firms / 200 replications completed in under twelve
+  experiments at 140 firms / 50 replications completed in under fifteen
   minutes; scaling linearly to 526 firms and 9,999 replications is
   estimated at several hours per experiment, which does not fit in the
   time remaining). The paper's full configuration is implemented and is
