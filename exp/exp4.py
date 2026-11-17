@@ -37,15 +37,14 @@ Steps:
      states 0%, -5%, -10%), with Holm adjustment over the {Delta_0,
      Delta_-5, Delta_-10} family and, separately, a conservative 4-test
      family adding Delta_D.
-  3. Lighter-weight validations given the time budget: a leave-one-month-out
-     refit of the stacked system (subsampled only if a single stacked refit
-     proves too slow; see code comment at the call site), a sector x month
-     fixed-effect refit, and a 2020-2021 exclusion refit.
+  3. Lighter-weight validations: a leave-one-month-out refit of the stacked
+     system (subsampled only if a single stacked refit proves too slow; see
+     code comment at the call site), a sector x month fixed-effect refit,
+     and a 2020-2021 exclusion refit.
   4. The paper's "observed-change timing synchronization" validation
      (a WAKIS proxy resynchronized to IAS's update timing) is NOT
-     implemented in this run -- out of scope given the time budget; this is
-     recorded in `exp4_run_metadata` so the parent integrator lists it under
-     "Not reproduced".
+     implemented in this run; this is recorded in `exp4_run_metadata` and
+     listed under "Not reproduced" in the results summary.
 
 Usage: ``python -m exp.exp4 [--full]``. ``--full`` uses the paper's panel
 size (config.SYNTHETIC_N_FIRMS_PAPER) instead of the reduced run
@@ -239,9 +238,8 @@ def run_leave_one_month_out(df_ias: pd.DataFrame, df_wakis: pd.DataFrame, regs: 
     Time-driven simplification: a single stacked refit on this sample takes
     roughly 1-1.5 seconds. The first refit is timed; if it exceeds 1.5s the
     loop falls back to sampling every 3rd realized month instead of all ~82,
-    to keep the total validation within the ~60-90 second budget stated in
-    the experiment brief, rather than dropping the leave-one-out check
-    entirely.
+    to keep the total validation to roughly a minute rather than dropping
+    the leave-one-out check entirely.
     """
     months = sorted(df_ias["month_id"].unique())
     sampling = "every month"

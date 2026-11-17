@@ -97,12 +97,12 @@ def _fit_entry_persistence_group(df_group: pd.DataFrame, regressors: list[str], 
 
     Returns NaN contrasts with a diagnostic note instead of raising when the
     subsample is too small or degenerate for ``fit_fe_panel`` to estimate
-    (singular design, too few clusters, etc.) -- Part A's instructions
-    explicitly ask for this fallback on the Persistence group.
+    (singular design, too few clusters, etc.) -- the Persistence group is
+    small enough in some configurations that this fallback is routinely hit.
     """
     try:
         fit: PanelRegressionResult = fit_fe_panel(df_group, outcome="joint80", regressors=regressors)
-    except Exception as exc:  # noqa: BLE001 - deliberately broad per task instructions
+    except Exception as exc:  # noqa: BLE001 - deliberately broad: report any fit failure as NaN
         logger.warning(
             "%s Equation 7 fit failed (%s); reporting NaN contrasts. Note: insufficient "
             "persistence-state observations in this run's synthetic/real-state sample.",

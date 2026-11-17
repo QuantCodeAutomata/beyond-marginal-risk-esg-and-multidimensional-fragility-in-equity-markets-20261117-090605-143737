@@ -2,7 +2,7 @@
   "provenance": {
     "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
     "accounting_source": "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
-    "universe_size_run": 15,
+    "universe_size_run": 140,
     "market_state_source": "real SPY monthly returns via QuantX Dataloader",
     "market_state_ticker_details": [
       {
@@ -37,9 +37,9 @@
     "n_months_realized": 82,
     "n_down_months_realized": 27,
     "n_up_months_realized": 55,
-    "n_firm_months": 1230
+    "n_firm_months": 11480
   },
-  "n_firms": 15,
-  "n_wild_bootstrap_reps": 20,
+  "n_firms": 140,
+  "n_wild_bootstrap_reps": 200,
   "full_run": false
 }
