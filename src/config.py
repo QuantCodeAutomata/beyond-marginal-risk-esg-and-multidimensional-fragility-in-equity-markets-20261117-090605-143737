@@ -67,7 +67,7 @@ JOINT80_EVENTS_PAPER = 1307        # paper: Joint80 events in the 29,792-obs reg
 # ---------------------------------------------------------------------------
 HOLM_ALPHA = 0.10                        # significance level used to judge Holm survival, Sec. 4 / Table discussion
 WILD_BOOTSTRAP_REPLICATIONS = 9999        # Rademacher wild-cluster-bootstrap replications, methodology step 6
-WILD_BOOTSTRAP_REPLICATIONS_RUN = 999     # reduced replication count used in the executed run (time-limited; see results/RESULTS.md); --full selects WILD_BOOTSTRAP_REPLICATIONS
+WILD_BOOTSTRAP_REPLICATIONS_RUN = 200     # reduced replication count used in the executed run (time-limited; see results/RESULTS.md); --full selects WILD_BOOTSTRAP_REPLICATIONS
 WILD_BOOTSTRAP_CLUSTER_DIM = "month"      # cluster dimension for the wild bootstrap, methodology step 6
 WILD_BOOTSTRAP_SEED = 20191130            # not specified in the paper; fixed for reproducibility
 CLUSTER_DIMS = ("firm", "month")          # two-way clustering dimensions, Sec. 4

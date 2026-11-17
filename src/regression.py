@@ -95,7 +95,7 @@ def complete_slope(result: PanelRegressionResult, base_coef: str, down_coef: str
         if d <= 0:
             estimate, se, p_value = linear_contrast_sum(result, base_coef, down_coef, abs(d))
         else:
-            up_coef = down_coef.replace("Down", "Up") if "Down" in down_coef else None
+            up_coef = down_coef.replace("down", "up") if "down" in down_coef else None
             if up_coef is not None and up_coef in result.params.index:
                 estimate, se, p_value = linear_contrast_sum(result, base_coef, up_coef, d)
             else:
