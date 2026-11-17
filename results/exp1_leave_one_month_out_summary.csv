@@ -1,4 +1,4 @@
 channel,n_estimates,n_negative,all_negative
-return,82,1,False
-volatility,82,80,False
-liquidity,82,0,False
+return,70,69,False
+volatility,70,28,False
+liquidity,70,0,False

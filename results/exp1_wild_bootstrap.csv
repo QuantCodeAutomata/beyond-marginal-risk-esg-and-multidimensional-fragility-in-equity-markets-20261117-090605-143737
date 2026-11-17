@@ -1,4 +1,4 @@
 channel,esg_down_wild_p,down_up_contrast_wild_p,n_reps_used
-return,0.685,0.665,200
-volatility,0.795,0.61,200
-liquidity,0.06,0.25,200
+return,0.44,0.66,50
+volatility,0.98,0.64,50
+liquidity,0.8,0.42,50

@@ -1,7 +1,5 @@
 {
   "provenance": {
-    "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
-    "accounting_source": "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
     "universe_size_run": 140,
     "market_state_source": "real SPY monthly returns via QuantX Dataloader",
     "market_state_ticker_details": [
@@ -37,12 +35,26 @@
     "n_months_realized": 82,
     "n_down_months_realized": 27,
     "n_up_months_realized": 55,
-    "n_firm_months": 11480
+    "universe_cut_rule": "non-financial S&P 500 (Wikipedia), top 140 by mean dollar volume over 2019-01-01..2019-04-01",
+    "universe_tickers_realized": 140,
+    "ohlcv_failed": {},
+    "ohlcv_non_massive_source": {
+      "DD": "yahoo",
+      "BIIB": "yahoo",
+      "FOXA": "yahoo"
+    },
+    "tickers_with_fundamentals": 140,
+    "n_firm_months_real": 9698,
+    "n_firms_real": 140,
+    "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
+    "accounting_source": "real Massive annual fundamentals, 6-month reporting lag (see results/RESULTS.md)",
+    "market_outcomes_source": "real OHLCV via QuantX Dataloader (Loss, log RVOL, log CHL, Beta24, RVOL12, CHL12, momentum, Amihud)",
+    "n_firm_months": 9698
   },
   "thresholds": {
-    "loss": 0.0478707988042881,
-    "log_rvol": -0.8257615837377033,
-    "log_chl": -4.7830422945788715
+    "loss": 0.056904615057534635,
+    "log_rvol": -0.9063587585208513,
+    "log_chl": -4.3870260812771
   },
   "n_firms": 140,
   "full_run": false

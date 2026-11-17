@@ -1,4 +1,4 @@
 channel,raw_p,holm_p,reject_at_alpha
-return,0.652118162942773,1.0,False
-volatility,0.5484638593769298,1.0,False
-liquidity,0.19629162394729827,0.5888748718418948,False
+return,0.6559479206514471,1.0,False
+volatility,0.5875543972349919,1.0,False
+liquidity,0.33436242348205747,1.0,False

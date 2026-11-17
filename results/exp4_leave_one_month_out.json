@@ -1,10 +1,10 @@
 {
   "leave_one_month_out_sampling": "every month",
-  "n_months_realized": 82,
-  "n_sampled": 82,
-  "n_negative": 0,
-  "min": 0.0012431579957941574,
-  "max": 0.004996157877112573,
-  "mean": 0.00326114474213108,
-  "total_seconds": 106.2572250366211
+  "n_months_realized": 70,
+  "n_sampled": 70,
+  "n_negative": 70,
+  "min": -0.00732107880138682,
+  "max": -0.0013334748478565474,
+  "mean": -0.004827777251868477,
+  "total_seconds": 79.35635948181152
 }

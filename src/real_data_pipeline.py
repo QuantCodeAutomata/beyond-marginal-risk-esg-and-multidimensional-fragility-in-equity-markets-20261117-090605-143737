@@ -14,6 +14,7 @@ permitted REST source (see ``data/data_loader.py``) and are attached from
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import pandas as pd
@@ -113,18 +114,17 @@ def load_accounting_controls(tickers: list[str], start_date: str, end_date: str,
     "income before extraordinary items" field; this is the closest available
     proxy, see `results/RESULTS.md`); investment = |capex| / total assets.
     """
-    frames = []
-    for ticker in tickers:
+    def _fetch_one(ticker: str) -> pd.DataFrame | None:
         try:
             raw = load_annual_fundamentals(ticker, start_date, end_date)
         except MassiveError as exc:
             logger.warning("Fundamentals unavailable for %s: %s", ticker, exc)
-            continue
+            return None
         by_kind = {kind: {row["period_end"]: row for row in rows} for kind, rows in raw.items() if isinstance(rows, list)}
         balance, income, cash_flow = by_kind.get("balance_sheet", {}), by_kind.get("income_statement", {}), by_kind.get("cash_flow", {})
         periods = sorted(set(balance) & set(income) & set(cash_flow))
         if not periods:
-            continue
+            return None
         records = []
         for period in periods:
             total_assets = balance[period].get("total_assets")
@@ -143,11 +143,19 @@ def load_accounting_controls(tickers: list[str], start_date: str, end_date: str,
                 "profitability": net_income / total_assets,
                 "investment": abs(capex) / total_assets,
             })
+        if not records:
+            return None
         annual = pd.DataFrame(records).sort_values("effective_month").set_index("effective_month")
         monthly = annual.reindex(months, method="ffill")
         monthly.insert(0, "firm_id", ticker)
         monthly.insert(1, "month_id", monthly.index)
-        frames.append(monthly.reset_index(drop=True))
+        return monthly.reset_index(drop=True)
+
+    # Massive has no batch fundamentals route, so tickers are fetched concurrently
+    # (one HTTP round trip per ticker) rather than in a single blocking loop.
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(_fetch_one, tickers))
+    frames = [frame for frame in results if frame is not None]
     if not frames:
         raise MassiveError("No ticker returned usable fundamentals")
     return pd.concat(frames, ignore_index=True)

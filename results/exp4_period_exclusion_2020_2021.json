@@ -3,12 +3,12 @@
     2020,
     2021
   ],
-  "n_obs_excluded": 3360,
-  "n_obs_remaining": 8120,
-  "ias_esg_down_estimate": 0.04755014722603362,
-  "ias_esg_down_se": 0.07791603550356743,
-  "ias_esg_down_raw_p": 0.5416801761956509,
-  "delta_minus5_estimate": 0.0006635848543567533,
-  "delta_minus5_se": 0.0031258413776237125,
-  "delta_minus5_raw_p": 0.8318807994063742
+  "n_obs_excluded": 3152,
+  "n_obs_remaining": 6546,
+  "ias_esg_down_estimate": -0.07614645949878251,
+  "ias_esg_down_se": 0.20780396615761323,
+  "ias_esg_down_raw_p": 0.7140411777399838,
+  "delta_minus5_estimate": -0.006671903302102211,
+  "delta_minus5_se": 0.011893874199669169,
+  "delta_minus5_raw_p": 0.5748296416743457
 }

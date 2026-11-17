@@ -46,15 +46,39 @@ def fit_fe_panel(
     x = panel[regressors]
     model = PanelOLS(y, x, entity_effects=entity_effects, time_effects=time_effects, drop_absorbed=True)
     result = model.fit(cov_type="clustered", cluster_entity=True, cluster_time=True)
+    cov = _psd_clip(result.cov)
+    std_errors = pd.Series(np.sqrt(np.diag(cov)), index=cov.index, name="std_error")
+    from scipy import stats as _stats
+
+    tstats = result.params / std_errors
+    pvalues = pd.Series(2.0 * (1.0 - _stats.norm.cdf(np.abs(tstats))), index=cov.index)
     return PanelRegressionResult(
         params=result.params,
-        std_errors=result.std_errors,
-        pvalues=result.pvalues,
-        cov=result.cov,
+        std_errors=std_errors,
+        pvalues=pvalues,
+        cov=cov,
         nobs=int(result.nobs),
         n_entities=int(panel.index.get_level_values(0).nunique()),
         raw_result=result,
     )
+
+
+def _psd_clip(cov: pd.DataFrame) -> pd.DataFrame:
+    """Clip negative eigenvalues of the two-way clustered covariance to zero.
+
+    The Cameron-Gelbach-Miller (2011) two-way cluster sandwich
+    V = V_firm + V_month - V_white is only guaranteed positive semi-definite
+    asymptotically; with a small number of clusters (83 calendar months here)
+    it can yield a slightly negative variance for individual coefficients,
+    which CGM note can be corrected by setting negative eigenvalues to zero
+    before taking the square root. This affects only the reported standard
+    errors of the raw fixed-effects fit, not the point estimates.
+    """
+    values = cov.to_numpy()
+    eigvals, eigvecs = np.linalg.eigh((values + values.T) / 2.0)
+    eigvals_clipped = np.clip(eigvals, 0.0, None)
+    fixed = eigvecs @ np.diag(eigvals_clipped) @ eigvecs.T
+    return pd.DataFrame(fixed, index=cov.index, columns=cov.columns)
 
 
 def linear_contrast(
