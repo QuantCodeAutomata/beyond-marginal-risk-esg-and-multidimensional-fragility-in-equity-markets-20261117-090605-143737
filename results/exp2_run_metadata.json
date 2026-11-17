@@ -1,0 +1,50 @@
+{
+  "provenance": {
+    "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
+    "accounting_source": "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
+    "universe_size_run": 140,
+    "market_state_source": "real SPY monthly returns via QuantX Dataloader",
+    "market_state_ticker_details": [
+      {
+        "ticker": "SPY",
+        "alias": "spy",
+        "columns": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "data_source": "massive",
+        "security_id": "BBG001S72SM3",
+        "identity_method": "figi",
+        "segments": [
+          {
+            "ticker": "SPY",
+            "start": "2019-01-01",
+            "end": "2025-11-30"
+          }
+        ],
+        "window": [
+          "2019-01-02",
+          "2025-11-28"
+        ],
+        "adjusted_for_dividends": true,
+        "price_decimals": 4
+      }
+    ],
+    "market_state_non_massive_source": {},
+    "n_months_realized": 82,
+    "n_down_months_realized": 27,
+    "n_up_months_realized": 55,
+    "n_firm_months": 11480
+  },
+  "joint80_thresholds": {
+    "loss": 0.0478707988042881,
+    "log_rvol": -0.8257615837377033,
+    "log_chl": -4.7830422945788715
+  },
+  "n_firms": 140,
+  "full_run": false,
+  "runtime_seconds": 12.657449505000159
+}

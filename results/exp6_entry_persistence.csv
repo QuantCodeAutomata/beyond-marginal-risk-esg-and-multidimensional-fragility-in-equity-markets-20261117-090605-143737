@@ -1,0 +1,3 @@
+group,nobs,n_firms,esg_down_estimate,esg_down_se,esg_down_raw_p,esg_down_holm_p,esg_up_estimate,down_up_contrast_raw_p
+entry,11233,140,0.01694915607604102,0.02006084228657082,0.3981736211463549,0.3981736211463549,0.013006646439816976,0.831251633304604
+persistence,107,78,,,,,,

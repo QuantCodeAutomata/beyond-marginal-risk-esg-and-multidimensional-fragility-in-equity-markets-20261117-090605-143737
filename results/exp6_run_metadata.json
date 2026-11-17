@@ -1,0 +1,60 @@
+{
+  "provenance": {
+    "esg_source": "synthetic (MSCI IAS/WAKIS/E/S/G have no permitted REST API; see results/RESULTS.md)",
+    "accounting_source": "synthetic (Compustat items are a licensed WRDS product; see results/RESULTS.md)",
+    "universe_size_run": 140,
+    "market_state_source": "real SPY monthly returns via QuantX Dataloader",
+    "market_state_ticker_details": [
+      {
+        "ticker": "SPY",
+        "alias": "spy",
+        "columns": [
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "data_source": "massive",
+        "security_id": "BBG001S72SM3",
+        "identity_method": "figi",
+        "segments": [
+          {
+            "ticker": "SPY",
+            "start": "2019-01-01",
+            "end": "2025-11-30"
+          }
+        ],
+        "window": [
+          "2019-01-02",
+          "2025-11-28"
+        ],
+        "adjusted_for_dividends": true,
+        "price_decimals": 4
+      }
+    ],
+    "market_state_non_massive_source": {},
+    "n_months_realized": 82,
+    "n_down_months_realized": 27,
+    "n_up_months_realized": 55,
+    "n_firm_months": 11480
+  },
+  "thresholds80": {
+    "loss": 0.0478707988042881,
+    "log_rvol": -0.8257615837377033,
+    "log_chl": -4.7830422945788715
+  },
+  "n_firms": 140,
+  "full_run": false,
+  "n_entry_obs": 11233,
+  "n_persistence_obs": 107,
+  "within_firm_holm_order": [
+    "firm_mean_return",
+    "within_dev_return",
+    "firm_mean_vol",
+    "within_dev_vol",
+    "firm_mean_liq",
+    "within_dev_liq"
+  ],
+  "wild_bootstrap_note": "The Entry wild-cluster-bootstrap p-value reported in the paper (0.109) is NOT reproduced in this script; only conventional two-way-clustered inference is used here because the wild-cluster bootstrap is time-expensive (see src/inference.py wild_cluster_bootstrap_panel for the implementation used elsewhere in the repo)."
+}

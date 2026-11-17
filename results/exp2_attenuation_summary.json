@@ -1,0 +1,14 @@
+{
+  "none_down_estimate": 0.027687588906301547,
+  "full_down_estimate": 0.02733455747273139,
+  "attenuation_fraction": -0.012750530021406364,
+  "beta_only_down_estimate": 0.027728434825801725,
+  "vol_only_down_estimate": 0.026518166659459018,
+  "liq_only_down_estimate": 0.028411394699202626,
+  "none_down_up_contrast_raw_p": 0.5605964143179718,
+  "beta_only_down_up_contrast_raw_p": 0.5616189313811359,
+  "vol_only_down_up_contrast_raw_p": 0.5901615195798882,
+  "liq_only_down_up_contrast_raw_p": 0.5295406416379067,
+  "largest_attenuation_block_esg_down": "rvol12",
+  "largest_attenuation_block_down_up_contrast_p": "rvol12"
+}
